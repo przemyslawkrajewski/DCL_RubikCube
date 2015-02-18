@@ -4,14 +4,14 @@ RubikCube - DisCODe Component Library
 Description
 -----------
 
-Fill this section with description of this library.
+Components used to find Rubik Cube on the screen
 
 Dependencies
 ------------
 
-Put here any dependencies of this library (other DCLs, third party libraries etc)
+Depends on the CvBasic and CvCoreTypes DCL
 
 Maintainer
 ----------
 
-Provide any information about yourself
+Przemysław Krajewski
