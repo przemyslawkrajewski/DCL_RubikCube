@@ -1,0 +1,68 @@
+<Task>
+	<!-- reference task information -->
+	<Reference>
+		<Author>
+			<name>Przemysław Krajewski</name>
+			<link></link>
+		</Author>
+	
+		<Description>
+			<brief>Finds Rubik Cube on the image file</brief>
+			<full>Finds Rubik Cube on the image file and sends colors of fields to ROS</full>
+		</Description>
+	</Reference>
+
+	<!-- task definition -->
+	<Subtasks>
+		<Subtask name="Recieving">
+			<Executor name="Exec1" period="0.01">
+				<Component name="Source" type="CvBasic:Sequence" priority="1" bump="0">
+					<param name="sequence.directory">../images</param>
+				</Component>
+			</Executor>
+		</Subtask>
+		
+		<Subtask name="Processing">
+			<Executor name="Exec2" period="0.01">
+				<Component name="RGB2GS" type="CvBasic:CvColorConv" priority="1" bump="0">
+				</Component>
+				<Component name="GaussianBlur" type="CvBasic:CvGaussianBlur" priority="2" bump="0">
+					<param name="kernel.width">15</param>
+					<param name="kernel.height">15</param>
+				</Component>
+				<Component name="EqualizeHistogram" type="RubikCube:CvEqualizeHistogram" priority="3" bump="0">
+				</Component>
+			</Executor>
+		</Subtask>
+		
+		<Subtask name="Visualisation">
+			<Executor name="Exec3" period="0.05">
+				<Component name="Window" type="CvBasic:CvWindow" priority="1" bump="0">
+					<param name="count">1</param>
+					<param name="title">Okienko</param>
+				</Component>
+			</Executor>
+		</Subtask>
+	</Subtasks>
+	
+	<!-- connections between events and handelrs -->
+	<Events>
+	</Events>
+	
+	<!-- pipes connecting datastreams -->
+	<DataStreams>
+		<Source name="Source.out_img">
+			<sink>RGB2GS.in_img</sink>
+		</Source>
+		<Source name="RGB2GS.out_img">
+			<sink>GaussianBlur.in_img</sink>
+		</Source>
+		<Source name="GaussianBlur.out_img">
+			<sink>EqualizeHistogram.in_img</sink>
+		</Source>
+		<Source name="EqualizeHistogram.out_img">
+			<sink>Window.in_img</sink>
+		</Source>
+	</DataStreams>
+</Task>
+
