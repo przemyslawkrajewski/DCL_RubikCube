@@ -27,19 +27,25 @@
 				<Component name="RGB2GS" type="CvBasic:CvColorConv" priority="1" bump="0">
 				</Component>
 				<Component name="GaussianBlur" type="CvBasic:CvGaussianBlur" priority="2" bump="0">
-					<param name="kernel.width">15</param>
-					<param name="kernel.height">15</param>
+					<param name="kernel.width">21</param>
+					<param name="kernel.height">21</param>
 				</Component>
 				<Component name="EqualizeHistogram" type="RubikCube:CvEqualizeHistogram" priority="3" bump="0">
 				</Component>
+				
+				<Component name="Canny" type="CvBasic:CvCanny" priority="4" bump="0">
+					<param name="histeresis.lowerThreshold">30</param>
+					<param name="histeresis.higherThreshold">90</param>
+				</Component>
+				
 			</Executor>
 		</Subtask>
 		
 		<Subtask name="Visualisation">
 			<Executor name="Exec3" period="0.05">
 				<Component name="Window" type="CvBasic:CvWindow" priority="1" bump="0">
-					<param name="count">1</param>
-					<param name="title">Okienko</param>
+					<param name="count">2</param>
+					<param name="title">Result,Equalize</param>
 				</Component>
 			</Executor>
 		</Subtask>
@@ -52,16 +58,20 @@
 	<!-- pipes connecting datastreams -->
 	<DataStreams>
 		<Source name="Source.out_img">
-			<sink>RGB2GS.in_img</sink>
-		</Source>
-		<Source name="RGB2GS.out_img">
 			<sink>GaussianBlur.in_img</sink>
 		</Source>
 		<Source name="GaussianBlur.out_img">
+			<sink>RGB2GS.in_img</sink>
+		</Source>
+		<Source name="RGB2GS.out_img">
 			<sink>EqualizeHistogram.in_img</sink>
+			<sink>Window.in_img1</sink>
 		</Source>
 		<Source name="EqualizeHistogram.out_img">
-			<sink>Window.in_img</sink>
+			<sink>Canny.in_img</sink>
+		</Source>
+		<Source name="Canny.out_img">
+			<sink>Window.in_img0</sink>
 		</Source>
 	</DataStreams>
 </Task>
