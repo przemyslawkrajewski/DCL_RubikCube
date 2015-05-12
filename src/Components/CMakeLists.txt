@@ -8,3 +8,5 @@ ADD_COMPONENT(DualCanny)
 ADD_COMPONENT(FindContours)
 
 ADD_COMPONENT(DrawResults)
+
+ADD_COMPONENT(FindParallelograms)

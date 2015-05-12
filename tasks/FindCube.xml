@@ -31,17 +31,19 @@
 					<param name="kernel.height">7</param>
 				</Component>
 				<Component name="MedianBlur" type="RubikCube:CvMedianBlur" priority="3" bump="0">
-					<param name="kernel.size">13</param>
+					<param name="kernel.size">11</param>
 				</Component>
 				<Component name="EqualizeHistogram" type="RubikCube:CvEqualizeHistogram" priority="4" bump="0">
 				</Component>
 				<Component name="FindEdges" type="RubikCube:DualCanny" priority="5" bump="0">
-					<param name="dilation.kernel.size">19</param>
-					<param name="erosion.kernel.size">15</param>
+					<param name="dilation.kernel.size">15</param>
+					<param name="erosion.kernel.size">11</param>
 					<param name="histeresis.lowerThreshold">30</param>
 					<param name="histeresis.higherThreshold">80</param>
 				</Component>
 				<Component name="FindContours" type="RubikCube:FindContours" priority="6" bump="0">
+				</Component>
+				<Component name="FindParallelograms" type="RubikCube:FindParallelograms" priority="7" bump="0">
 				</Component>
 				
 			</Executor>
@@ -80,13 +82,17 @@
 		</Source>
 		<Source name="GaussianBlur.out_img">
 			<sink>FindEdges.in_img</sink>
-			<sink>Window.in_img1</sink>
 		</Source>
 		<Source name="FindEdges.out_img">
 			<sink>FindContours.in_img</sink>
+			<sink>Window.in_img1</sink>
 		</Source>
 		<Source name="FindContours.out_contours">
 			<sink>Results.in_contours</sink>
+			<sink>FindParallelograms.in_contours</sink>
+		</Source>
+		<Source name="FindParallelograms.out_parallelograms">
+			<sink>Results.in_parallelograms</sink>
 		</Source>
 		
 		

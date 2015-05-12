@@ -18,6 +18,7 @@
 
 #include <vector>
 #include "Types/Contour.hpp"
+#include "Types/Parallelogram.hpp"
 
 namespace Processors {
 namespace DrawResults {
@@ -88,15 +89,18 @@ protected:
 	 */
 	void onNewImage();
 	void onNewContours();
+	void onNewParallelograms();
 
 	/*!
 	 * subfunctions drawing stuff
 	 */
 	void drawContours(Mat &img);
+	void drawParallelograms(Mat &img);
 
 	/// Input data stream
 	Base::DataStreamIn <Mat> in_img;
 	Base::DataStreamIn < vector<Contour> > in_contours;
+	Base::DataStreamIn < vector<Parallelogram> > in_parallelograms;
 
 	/// Output data stream - processed image
 	Base::DataStreamOut <Mat> out_img;
@@ -106,6 +110,7 @@ protected:
 
 	//things to draw
 	vector<Contour> contours;
+	vector<Parallelogram> parallelograms;
 
 };
 
