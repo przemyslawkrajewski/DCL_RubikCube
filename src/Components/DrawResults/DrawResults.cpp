@@ -30,16 +30,19 @@ void DrawResults::prepareInterface() {
 	registerHandler("onNewImage", boost::bind(&DrawResults::onNewImage, this));
 	registerHandler("onNewContours", boost::bind(&DrawResults::onNewContours, this));
 	registerHandler("onNewParallelograms", boost::bind(&DrawResults::onNewParallelograms, this));
+	registerHandler("onNewCubeFace", boost::bind(&DrawResults::onNewCubeFace, this));
 
 	registerStream("in_img", &in_img);
 	registerStream("in_contours", &in_contours);
 	registerStream("in_parallelograms", &in_parallelograms);
+	registerStream("in_cubeface", &in_cubeface);
 
 	registerStream("out_img", &out_img);
 
 	addDependency("onNewImage", &in_img);
 	addDependency("onNewContours", &in_contours);
 	addDependency("onNewParallelograms", &in_parallelograms);
+	addDependency("onNewCubeFace", &in_cubeface);
 }
 
 bool DrawResults::onInit() {
@@ -81,6 +84,16 @@ void DrawResults::onNewParallelograms()
 	}
 }
 
+void DrawResults::onNewCubeFace()
+{
+	LOG(LTRACE) << "DrawResults::onNewCubeFace\n";
+	try {
+		cubeFace = in_cubeface.read();
+	} catch (...) {
+		LOG(LERROR) << "DrawResults	::onNewCubeFace failed\n";
+	}
+}
+
 void DrawResults::drawContours(Mat &img)
 {
 	for(vector<Contour>::iterator contour=contours.begin();contour!=contours.end();contour++)
@@ -98,10 +111,26 @@ void DrawResults::drawParallelograms(Mat &img)
 {
 	for(vector<Parallelogram>::iterator p=parallelograms.begin();p!=parallelograms.end();p++)
 	{
-		cv::line( img,p->getCorner(0),p->getCorner(1),Scalar( 255, 255, 255 ),4 );
-		cv::line( img,p->getCorner(1),p->getCorner(2),Scalar( 255, 255, 255 ),4 );
-		cv::line( img,p->getCorner(2),p->getCorner(3),Scalar( 255, 255, 255 ),4 );
-		cv::line( img,p->getCorner(3),p->getCorner(0),Scalar( 255, 255, 255 ),4 );
+		cv::line( img,p->getCorner(0),p->getCorner(1),Scalar( 100, 100, 100 ),4 );
+		cv::line( img,p->getCorner(1),p->getCorner(2),Scalar( 100, 100, 100 ),4 );
+		cv::line( img,p->getCorner(2),p->getCorner(3),Scalar( 100, 100, 100 ),4 );
+		cv::line( img,p->getCorner(3),p->getCorner(0),Scalar( 100, 100, 100 ),4 );
+	}
+}
+
+void DrawResults::drawCubeFace(Mat &img)
+{
+	for(int i=0;i<3;i++)
+	{
+		for(int j=0;j<3;j++)
+		{
+			Parallelogram p = cubeFace.getTile(i,j);
+			//cv::line( img,p.getCorner(0),p.getCorner(1),Scalar( 255, 255, 255 ),2 );
+			//cv::line( img,p.getCorner(1),p.getCorner(2),Scalar( 255, 255, 255 ),2 );
+			//cv::line( img,p.getCorner(2),p.getCorner(3),Scalar( 255, 255, 255 ),2 );
+			//cv::line( img,p.getCorner(3),p.getCorner(0),Scalar( 255, 255, 255 ),2 );
+			cv::circle( img,p.getMiddle(),6,Scalar( 255, 255, 255 ), 2);
+		}
 	}
 }
 
@@ -114,6 +143,7 @@ void DrawResults::onNewImage()
 
 		drawContours(out);
 		drawParallelograms(out);
+		drawCubeFace(out);
 
 		out_img.write(out);
 	} catch (...) {

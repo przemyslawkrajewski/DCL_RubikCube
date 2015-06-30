@@ -19,6 +19,7 @@
 #include <vector>
 #include "Types/Contour.hpp"
 #include "Types/Parallelogram.hpp"
+#include "Types/CubeFace.hpp"
 
 namespace Processors {
 namespace DrawResults {
@@ -90,17 +91,20 @@ protected:
 	void onNewImage();
 	void onNewContours();
 	void onNewParallelograms();
+	void onNewCubeFace();
 
 	/*!
 	 * subfunctions drawing stuff
 	 */
 	void drawContours(Mat &img);
 	void drawParallelograms(Mat &img);
+	void drawCubeFace(Mat &img);
 
 	/// Input data stream
 	Base::DataStreamIn <Mat> in_img;
 	Base::DataStreamIn < vector<Contour> > in_contours;
 	Base::DataStreamIn < vector<Parallelogram> > in_parallelograms;
+	Base::DataStreamIn < CubeFace> in_cubeface;
 
 	/// Output data stream - processed image
 	Base::DataStreamOut <Mat> out_img;
@@ -111,6 +115,7 @@ protected:
 	//things to draw
 	vector<Contour> contours;
 	vector<Parallelogram> parallelograms;
+	CubeFace cubeFace;
 
 };
 

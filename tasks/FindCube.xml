@@ -45,6 +45,8 @@
 				</Component>
 				<Component name="FindParallelograms" type="RubikCube:FindParallelograms" priority="7" bump="0">
 				</Component>
+				<Component name="FindCubeFace" type="RubikCube:FindCubeFace" priority="7" bump="0">
+				</Component>
 				
 			</Executor>
 		</Subtask>
@@ -93,6 +95,10 @@
 		</Source>
 		<Source name="FindParallelograms.out_parallelograms">
 			<sink>Results.in_parallelograms</sink>
+			<sink>FindCubeFace.in_parallelograms</sink>
+		</Source>
+		<Source name="FindCubeFace.out_cubeface">
+			<sink>Results.in_cubeface</sink>
 		</Source>
 		
 		

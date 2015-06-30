@@ -10,3 +10,7 @@ ADD_COMPONENT(FindContours)
 ADD_COMPONENT(DrawResults)
 
 ADD_COMPONENT(FindParallelograms)
+
+ADD_COMPONENT(FindCubeFace)
+
+ADD_COMPONENT(GetTilesColors)
