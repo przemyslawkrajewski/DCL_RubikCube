@@ -14,3 +14,5 @@ ADD_COMPONENT(FindParallelograms)
 ADD_COMPONENT(FindCubeFace)
 
 ADD_COMPONENT(GetTilesColors)
+
+ADD_COMPONENT(CubeProxy)
