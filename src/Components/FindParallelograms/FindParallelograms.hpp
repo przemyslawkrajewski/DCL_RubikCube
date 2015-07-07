@@ -80,7 +80,7 @@ protected:
 	void onNewContours();
 
 	/// Input data stream
-	Base::DataStreamIn < vector<Contour> > in_contours;
+	Base::DataStreamIn < vector<Contour> , Base::DataStreamBuffer::Newest,Base::Synchronization::Mutex> in_contours;
 
 	/// Output data stream - found contours
 	Base::DataStreamOut < vector<Parallelogram> > out_parallelograms;

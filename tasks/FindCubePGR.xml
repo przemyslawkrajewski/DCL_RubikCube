@@ -1,0 +1,131 @@
+
+<Task>
+	<!-- reference task information -->
+	<Reference>
+		<Author>
+			<name>Aleksandra Karbarczyk</name>
+			<link></link>
+		</Author>
+		
+		<Description>
+			<brief></brief>
+			<full></full>	
+		</Description>
+	</Reference>
+	
+	<!-- task definition -->
+	<Subtasks>
+		<Subtask name="Recieving">
+			<Executor name="Exec1" period="0.1">
+				
+				<Component name="Source" type="CameraPGR:CameraPGR" priority="1" bump="0">
+					<param name="camera_serial">13481977</param>
+					<param name="width">1296</param>
+					<param name="height">1032</param>
+					<param name="shutter_mode">manual</param>
+					<param name="shutter_value">80</param>
+					<param name="gain_mode">manual</param>
+					<param name="gain_value">2</param>
+					<param name="frame_rate_value">10</param>
+					<param name="frame_rate_mode">manual</param>
+				</Component>
+	
+				<Component name="CameraInfo" type="CvCoreTypes:CameraInfoProvider" priority="2">
+					<param name="width">1296</param>
+					<param name="height">1032</param>
+					<param name="camera_matrix">1052.974150 0 646.343139 ; 0 1048.529819 506.165068 ; 0 0 1</param>
+					<param name="dist_coeffs">-0.405033 0.189376 0.000262 0.000465 0.000000</param>
+				</Component>
+				
+				<Component name="Undistort" type="CvBasic:CvUndistort" priority="3" bump="0">
+				</Component>
+				
+			</Executor>
+		</Subtask>
+		
+		<Subtask name="Processing">
+			<Executor name="Exec2" period="0.01">
+				<Component name="RGB2GS" type="CvBasic:CvColorConv" priority="1" bump="0">
+				</Component>
+				<Component name="GaussianBlur" type="CvBasic:CvGaussianBlur" priority="2" bump="0">
+					<param name="kernel.width">7</param>
+					<param name="kernel.height">7</param>
+				</Component>
+				<Component name="EqualizeHistogram" type="RubikCube:CvEqualizeHistogram" priority="4" bump="0">
+				</Component>
+				<Component name="FindEdges" type="RubikCube:DualCanny" priority="5" bump="0">
+					<param name="dilation.kernel.size">17</param>
+					<param name="erosion.kernel.size">13</param>
+					<param name="histeresis.lowerThreshold">20</param>
+					<param name="histeresis.higherThreshold">80</param>
+				</Component>
+				<Component name="FindContours" type="RubikCube:FindContours" priority="6" bump="0">
+				</Component>
+				<Component name="FindParallelograms" type="RubikCube:FindParallelograms" priority="7" bump="0">
+				</Component>
+				<Component name="FindCubeFace" type="RubikCube:FindCubeFace" priority="7" bump="0">
+				</Component>
+				
+			</Executor>
+		</Subtask>
+		
+		<Subtask name="Visualisation">
+			<Executor name="Exec3" period="0.2">
+				<Component name="Results" type="RubikCube:DrawResults" priority="1" bump="0">
+				</Component>
+				<Component name="Window" type="CvBasic:CvWindow" priority="4" bump="0">
+					<param name="count">2</param>
+					<param name="title">Original,Result</param>
+				</Component>
+			</Executor>
+		</Subtask>	
+	
+	</Subtasks>
+	
+	<!-- pipes connecting datastreams -->
+	<DataStreams>
+		<Source name="Source.out_img">	
+			<sink>Undistort.in_img</sink>
+			<sink>Window.in_img0</sink>
+		</Source>
+		<Source name="CameraInfo.out_camera_info">
+			<sink>Undistort.in_camerainfo</sink>
+		</Source>
+		<Source name="Undistort.out_img">
+			<sink>RGB2GS.in_img</sink>
+			<sink>Results.in_img</sink>
+		</Source>
+		<Source name="RGB2GS.out_img">
+			<sink>EqualizeHistogram.in_img</sink>
+		</Source>
+		<Source name="EqualizeHistogram.out_img">
+			<sink>GaussianBlur.in_img</sink>
+		</Source>
+		<Source name="GaussianBlur.out_img">
+			<sink>FindEdges.in_img</sink>
+		</Source>
+		<Source name="FindEdges.out_img">
+			<sink>FindContours.in_img</sink>
+		</Source>
+		<Source name="FindContours.out_contours">
+			<sink>Results.in_contours</sink>
+			<sink>FindParallelograms.in_contours</sink>
+		</Source>
+		<Source name="FindParallelograms.out_parallelograms">
+			<sink>Results.in_parallelograms</sink>
+			<sink>FindCubeFace.in_parallelograms</sink>
+		</Source>
+		<Source name="FindCubeFace.out_cubeface">
+			<sink>Results.in_cubeface</sink>
+		</Source>
+		
+		
+		<Source name="Results.out_img">
+			<sink>Window.in_img1</sink>
+		</Source>
+	</DataStreams>
+</Task>
+
+
+
+

@@ -101,10 +101,10 @@ protected:
 	void drawCubeFace(Mat &img);
 
 	/// Input data stream
-	Base::DataStreamIn <Mat> in_img;
-	Base::DataStreamIn < vector<Contour> > in_contours;
-	Base::DataStreamIn < vector<Parallelogram> > in_parallelograms;
-	Base::DataStreamIn < CubeFace> in_cubeface;
+	Base::DataStreamIn <Mat , Base::DataStreamBuffer::Newest,Base::Synchronization::Mutex> in_img;
+	Base::DataStreamIn < vector<Contour> , Base::DataStreamBuffer::Newest,Base::Synchronization::Mutex> in_contours;
+	Base::DataStreamIn < vector<Parallelogram> , Base::DataStreamBuffer::Newest,Base::Synchronization::Mutex> in_parallelograms;
+	Base::DataStreamIn < CubeFace , Base::DataStreamBuffer::Newest,Base::Synchronization::Mutex> in_cubeface;
 
 	/// Output data stream - processed image
 	Base::DataStreamOut <Mat> out_img;

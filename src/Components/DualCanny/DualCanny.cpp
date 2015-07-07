@@ -70,14 +70,14 @@ void DualCanny::onNewImage()
 
 		Canny( out, out, lowerThreshold,higherThreshold);
 
-		 Mat dilationElement = getStructuringElement( MORPH_RECT,Size(dilationSize, dilationSize),Point( (int)(dilationSize/2), (int)(dilationSize/2) ) );
-		 dilate( out, out, dilationElement );
+		Mat dilationElement = getStructuringElement( MORPH_RECT,Size(dilationSize, dilationSize),Point( (int)(dilationSize/2), (int)(dilationSize/2) ) );
+		dilate( out, out, dilationElement );
 
-		 Mat erosionElement = getStructuringElement( MORPH_RECT,Size(erosionSize, erosionSize),Point( (int)(erosionSize/2), (int)(erosionSize/2) ) );
-		 erode( out, out, erosionElement );
+		Mat erosionElement = getStructuringElement( MORPH_RECT,Size(erosionSize, erosionSize),Point( (int)(erosionSize/2), (int)(erosionSize/2) ) );
+		erode( out, out, erosionElement );
 
-		 //It doesn't matter what thresholds are because this is now binary image
-		 Canny( out, out, lowerThreshold,higherThreshold);
+		//It doesn't matter what thresholds are because this is now binary image
+		Canny( out, out, lowerThreshold,higherThreshold);
 
 		out_img.write(out);
 	} catch (...) {

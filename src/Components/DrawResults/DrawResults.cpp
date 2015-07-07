@@ -145,6 +145,10 @@ void DrawResults::onNewImage()
 		drawParallelograms(out);
 		drawCubeFace(out);
 
+		contours.clear();
+		parallelograms.clear();
+		cubeFace= CubeFace();
+
 		out_img.write(out);
 	} catch (...) {
 		LOG(LERROR) << "DrawResults	::onNewImage failed\n";

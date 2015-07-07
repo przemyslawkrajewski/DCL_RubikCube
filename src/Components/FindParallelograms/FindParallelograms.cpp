@@ -136,13 +136,15 @@ void FindParallelograms::onNewContours()
             double r30 = sqrt((p3.x - p0.x) * (p3.x - p0.x) + (p3.y - p0.y) * (p3.y - p0.y));
 
             double distanceThreshold;
-            double similarAngleThreshold = 5 * 3.14 / 180;
+            double minLength = 50;
+            double similarAngleThreshold = 10 * 3.14 / 180;
             if (r01 < r30) distanceThreshold = r01 / 5;
             else distanceThreshold = r30 / 5;
 
 
             if (abs(a01 - a32) < similarAngleThreshold && abs(a03 - a12) < similarAngleThreshold &&
-            		abs(r01 - r23) < distanceThreshold && abs(r30 - r12) < distanceThreshold
+            		abs(r01 - r23) < distanceThreshold && abs(r30 - r12) < distanceThreshold &&
+            		r01 > minLength && r23 > minLength
                    )
             {
             	parallelograms.push_back(parallelogram);

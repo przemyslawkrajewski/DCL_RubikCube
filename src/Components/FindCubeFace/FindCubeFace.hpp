@@ -85,7 +85,7 @@ protected:
 	double measureDistance(Point p1, Point p2);
 	double measureAngle(Point p1, Point p2);
 
-	Base::DataStreamIn < vector<Parallelogram> > in_parallelograms;
+	Base::DataStreamIn < vector<Parallelogram > , Base::DataStreamBuffer::Newest,Base::Synchronization::Mutex> in_parallelograms;
 	Base::DataStreamOut < CubeFace> out_cubeface;
 	
 	double angleThresholdGroupSquares;

@@ -18,7 +18,7 @@ namespace FindCubeFace {
 FindCubeFace::FindCubeFace(const std::string & name) :
 		Base::Component(name)  {
 
-	angleThresholdGroupSquares=10*CV_PI/180;
+	angleThresholdGroupSquares=20*CV_PI/180;
 	angleThresholdInLine = CV_PI*8/180;
 }
 

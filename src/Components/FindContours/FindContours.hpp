@@ -79,7 +79,7 @@ protected:
 	void onNewImage();
 
 	/// Input data stream
-	Base::DataStreamIn <Mat> in_img;
+	Base::DataStreamIn <Mat , Base::DataStreamBuffer::Newest,Base::Synchronization::Mutex> in_img;
 
 	/// Output data stream - found contours
 	Base::DataStreamOut < vector<Contour> > out_contours;

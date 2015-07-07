@@ -24,8 +24,16 @@ GetTilesColors::~GetTilesColors() {
 }
 
 void GetTilesColors::prepareInterface() {
-	// Register data streams, events and event handlers HERE!
+	registerHandler("onNewImage", boost::bind(&GetTilesColors::onNewImage, this));
+	registerHandler("onNewCubeFace", boost::bind(&GetTilesColors::onNewCubeFace, this));
 
+	registerStream("in_img", &in_img);
+	registerStream("in_cubeface", &in_cubeface);
+
+	registerStream("out_cubeface", &out_cubeface);
+
+	addDependency("onNewImage", &in_img);
+	addDependency("onNewCubeFace", &in_cubeface);
 }
 
 bool GetTilesColors::onInit() {
@@ -45,7 +53,29 @@ bool GetTilesColors::onStart() {
 	return true;
 }
 
+void GetTilesColors::onNewCubeFace()
+{
+	LOG(LTRACE) << "DrawResults::onNewCubeFace\n";
+	try {
+		CubeFace cubeFace = in_cubeface.read();
 
+		out_cubeface.write(cubeFace);
+
+	} catch (...) {
+		LOG(LERROR) << "DrawResults	::onNewCubeFace failed\n";
+	}
+}
+
+void GetTilesColors::onNewImage()
+{
+	LOG(LTRACE) << "DrawResults::onNewImage\n";
+	try {
+		img = in_img.read();
+
+	} catch (...) {
+		LOG(LERROR) << "DrawResults	::onNewImage failed\n";
+	}
+}
 
 } //: namespace GetTilesColors
 } //: namespace Processors
