@@ -64,12 +64,14 @@ namespace RubikCube
 			middle.y=middle.y/4;
 		}
 
-		cv::Scalar getColor() {
+		cv::Scalar getColor()
+		{
 			return color;
 		}
 
-		void setColor(cv::Scalar color) {
-			this->color = color;
+		void setColor(cv::Scalar c)
+		{
+			color = c;
 		}
 	};
 }

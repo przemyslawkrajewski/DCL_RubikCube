@@ -13,7 +13,21 @@
 #include "Property.hpp"
 #include "EventHandler2.hpp"
 
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 
+#include <vector>
+#include "Types/Contour.hpp"
+#include "Types/Parallelogram.hpp"
+#include "Types/CubeFace.hpp"
+
+#include "ros/ros.h"
+#include "std_msgs/Int32.h"
+#include "rubik_cube/Cube_face_color.h"
+
+using namespace std;
+using namespace cv;
+using namespace RubikCube;
 
 namespace Processors {
 namespace CubeProxy {
@@ -66,7 +80,26 @@ protected:
 	bool onStop();
 
 
-	
+	// Input data streams
+
+	Base::DataStreamIn<CubeFace> in_cubeface;
+
+	// Output data streams
+
+	// Handlers
+	Base::EventHandler2 h_onNewCubeFace;
+	Base::Property<std::string> ros_topic_name;
+	Base::Property<std::string> ros_namespace;
+
+
+	// Handlers
+	void onNewCubeFace();
+
+	ros::Publisher pub;
+	ros::Subscriber sub;
+	ros::NodeHandle * nh;
+
+	void callback(const rubik_cube::Cube_face_colorConstPtr& msg);
 
 };
 

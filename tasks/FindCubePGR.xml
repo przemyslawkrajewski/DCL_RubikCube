@@ -65,6 +65,8 @@
 				</Component>
 				<Component name="FindCubeFace" type="RubikCube:FindCubeFace" priority="7" bump="0">
 				</Component>
+				<Component name="GetTilesColors" type="RubikCube:GetTilesColors" priority="8" bump="0">
+				</Component>
 				
 			</Executor>
 		</Subtask>
@@ -76,6 +78,13 @@
 				<Component name="Window" type="CvBasic:CvWindow" priority="4" bump="0">
 					<param name="count">2</param>
 					<param name="title">Original,Result</param>
+				</Component>
+			</Executor>
+		</Subtask>	
+		
+				<Subtask name="Publication">
+			<Executor name="Exec4" period="0.2">
+				<Component name="Publicate" type="RubikCube:CubeProxy" priority="1" bump="0">
 				</Component>
 			</Executor>
 		</Subtask>	
@@ -94,6 +103,7 @@
 		<Source name="Undistort.out_img">
 			<sink>RGB2GS.in_img</sink>
 			<sink>Results.in_img</sink>
+			<sink>GetTilesColors.in_img</sink>
 		</Source>
 		<Source name="RGB2GS.out_img">
 			<sink>EqualizeHistogram.in_img</sink>
@@ -116,7 +126,11 @@
 			<sink>FindCubeFace.in_parallelograms</sink>
 		</Source>
 		<Source name="FindCubeFace.out_cubeface">
+			<sink>GetTilesColors.in_cubeface</sink>
+		</Source>
+		<Source name="GetTilesColors.out_cubeface">
 			<sink>Results.in_cubeface</sink>
+			<sink>Publicate.in_cubeface</sink>
 		</Source>
 		
 		

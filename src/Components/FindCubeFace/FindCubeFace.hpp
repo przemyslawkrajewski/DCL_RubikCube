@@ -81,6 +81,8 @@ protected:
 	vector< vector<Parallelogram> > groupParallelograms( vector<Parallelogram> parallelograms);
 	vector<CubeFace> determineCubeFaces( vector< vector<Parallelogram> > groupOfParallelograms );
 	vector<CubeFace> fillNullTiles(vector<CubeFace> cubeFaces);
+	vector<CubeFace> rotateCube(vector<CubeFace> cubeFaces);
+
 
 	double measureDistance(Point p1, Point p2);
 	double measureAngle(Point p1, Point p2);

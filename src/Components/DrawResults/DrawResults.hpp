@@ -99,6 +99,7 @@ protected:
 	void drawContours(Mat &img);
 	void drawParallelograms(Mat &img);
 	void drawCubeFace(Mat &img);
+	void drawTilesColors(Mat &img);
 
 	/// Input data stream
 	Base::DataStreamIn <Mat , Base::DataStreamBuffer::Newest,Base::Synchronization::Mutex> in_img;

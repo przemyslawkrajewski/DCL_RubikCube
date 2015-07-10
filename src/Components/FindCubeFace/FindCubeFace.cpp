@@ -19,7 +19,7 @@ FindCubeFace::FindCubeFace(const std::string & name) :
 		Base::Component(name)  {
 
 	angleThresholdGroupSquares=20*CV_PI/180;
-	angleThresholdInLine = CV_PI*8/180;
+	angleThresholdInLine = CV_PI*15/180;
 }
 
 FindCubeFace::~FindCubeFace() {
@@ -69,6 +69,8 @@ void FindCubeFace::onNewParallelograms()
         cubeFaces = determineCubeFaces(groupsOfParallelograms);
 
         cubeFaces = fillNullTiles(cubeFaces);
+
+        cubeFaces = rotateCube(cubeFaces);
 
         if(cubeFaces.size()!=0)
         	out_cubeface.write(cubeFaces[0]);
@@ -269,6 +271,7 @@ vector<CubeFace> FindCubeFace::determineCubeFaces( vector< vector<Parallelogram>
 
             face.setHorizontalSize(3);
             face.setVerticalSize(3);
+            face.setFound();
             cubeFaces.push_back(face);
         }
 
@@ -339,6 +342,74 @@ vector<CubeFace> FindCubeFace::fillNullTiles(vector<CubeFace> cubeFaces)
                 i->setTile(parallelogram,j,l);
             }
         }
+    }
+    return cubeFaces;
+}
+
+vector<CubeFace> FindCubeFace::rotateCube(vector<CubeFace> cubeFaces)
+{
+    for(vector<CubeFace>::iterator i=cubeFaces.begin();i!=cubeFaces.end();i++)
+    {
+    	double a = measureAngle(i->getTile(1,1).getMiddle(),i->getTile(0,0).getMiddle());
+
+    	if(a>CV_PI/2)
+    	{
+    		Parallelogram t;
+    		t=i->getTile(2,2);
+    		i->setTile(i->getTile(0,2),2,2);
+    		i->setTile(i->getTile(0,0),0,2);
+    		i->setTile(i->getTile(2,0),0,0);
+    		i->setTile(t,2,0);
+
+    		t=i->getTile(2,1);
+    		i->setTile(i->getTile(1,2),2,1);
+    		i->setTile(i->getTile(0,1),1,2);
+    		i->setTile(i->getTile(1,0),0,1);
+    		i->setTile(t,1,0);//*/
+
+    	}
+    	else if(a>0)
+    	{
+    		Parallelogram t;
+    		t=i->getTile(2,2);
+    		i->setTile(i->getTile(0,2),2,2);
+    		i->setTile(i->getTile(0,0),0,2);
+    		i->setTile(i->getTile(2,0),0,0);
+    		i->setTile(t,2,0);
+
+    		t=i->getTile(2,1);
+    		i->setTile(i->getTile(1,2),2,1);
+    		i->setTile(i->getTile(0,1),1,2);
+    		i->setTile(i->getTile(1,0),0,1);
+    		i->setTile(t,1,0);//*/
+    		t=i->getTile(2,2);
+    		i->setTile(i->getTile(0,2),2,2);
+    		i->setTile(i->getTile(0,0),0,2);
+    		i->setTile(i->getTile(2,0),0,0);
+    		i->setTile(t,2,0);
+
+    		t=i->getTile(2,1);
+    		i->setTile(i->getTile(1,2),2,1);
+    		i->setTile(i->getTile(0,1),1,2);
+    		i->setTile(i->getTile(1,0),0,1);
+    		i->setTile(t,1,0);//*/
+
+    	}
+    	else if(a>-CV_PI/2)
+    	{
+    		Parallelogram t;
+    		t=i->getTile(2,0);
+    		i->setTile(i->getTile(0,0),2,0);
+    		i->setTile(i->getTile(0,2),0,0);
+    		i->setTile(i->getTile(2,2),0,2);
+    		i->setTile(t,2,2);
+
+    		t=i->getTile(1,0);
+    		i->setTile(i->getTile(0,1),1,0);
+    		i->setTile(i->getTile(1,2),0,1);
+    		i->setTile(i->getTile(2,1),1,2);
+    		i->setTile(t,2,1);//*/
+    	}
     }
     return cubeFaces;
 }
