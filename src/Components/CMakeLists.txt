@@ -16,3 +16,5 @@ ADD_COMPONENT(FindCubeFace)
 ADD_COMPONENT(GetTilesColors)
 
 ADD_COMPONENT(CubeProxy)
+
+ADD_COMPONENT(CubeInfo)
