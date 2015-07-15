@@ -98,8 +98,8 @@ vector< vector<Parallelogram> > FindCubeFace::groupParallelograms( vector<Parall
         if(a03<0) a03+=CV_PI;
 
         double distanceThreshold;
-        if (r01 < r03) distanceThreshold = r01 / 6;
-        else distanceThreshold = r03 / 6;
+        if (r01 < r03) distanceThreshold = r01 / 4;
+        else distanceThreshold = r03 / 4;
 
         groupOfParallelograms.push_back(parallelograms[0]);
         parallelograms.erase(parallelograms.begin());

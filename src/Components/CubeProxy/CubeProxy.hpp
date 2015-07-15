@@ -82,7 +82,7 @@ protected:
 
 	// Input data streams
 
-	Base::DataStreamIn<CubeFace> in_cubeface;
+	Base::DataStreamIn<CubeFace , Base::DataStreamBuffer::Newest,Base::Synchronization::Mutex> in_cubeface;
 
 	// Output data streams
 

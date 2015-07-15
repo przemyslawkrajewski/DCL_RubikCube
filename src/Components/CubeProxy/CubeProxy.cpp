@@ -94,6 +94,15 @@ void CubeProxy::onNewCubeFace()
 	msg.tile9.red    = cube.getTile(2,2).getColor()[2];
 	msg.tile9.green  = cube.getTile(2,2).getColor()[1];
 	msg.tile9.blue   = cube.getTile(2,2).getColor()[0];
+	msg.x = cube.getTile(1,1).getMiddle().x;
+	msg.y = cube.getTile(1,1).getMiddle().y;
+	cv::Point p1 = cube.getTile(0,0).getMiddle();
+	cv::Point p2 = cube.getTile(0,2).getMiddle();
+	cv::Point p3 = cube.getTile(0,2).getMiddle();
+	double r1 = sqrt((p1.x-p2.x)*(p1.x-p2.x) + (p1.y-p2.y)*(p1.y-p2.y));
+	double r2 = sqrt((p1.x-p3.x)*(p1.x-p3.x) + (p1.y-p3.y)*(p1.y-p3.y));
+	msg.d = (r1+r2)/2;
+
 
 	pub.publish(msg);
 	ros::spinOnce();

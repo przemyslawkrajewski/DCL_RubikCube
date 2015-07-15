@@ -48,24 +48,27 @@
 				<Component name="RGB2GS" type="CvBasic:CvColorConv" priority="1" bump="0">
 				</Component>
 				<Component name="GaussianBlur" type="CvBasic:CvGaussianBlur" priority="2" bump="0">
-					<param name="kernel.width">7</param>
-					<param name="kernel.height">7</param>
+					<param name="kernel.width">9</param>
+					<param name="kernel.height">9</param>
+				</Component>
+				<Component name="MedianBlur" type="RubikCube:CvMedianBlur" priority="3" bump="0">
+					<param name="kernel.size">7</param>
 				</Component>
 				<Component name="EqualizeHistogram" type="RubikCube:CvEqualizeHistogram" priority="4" bump="0">
 				</Component>
 				<Component name="FindEdges" type="RubikCube:DualCanny" priority="5" bump="0">
-					<param name="dilation.kernel.size">17</param>
+					<param name="dilation.kernel.size">15</param>
 					<param name="erosion.kernel.size">13</param>
-					<param name="histeresis.lowerThreshold">20</param>
-					<param name="histeresis.higherThreshold">80</param>
+					<param name="histeresis.lowerThreshold">15</param>
+					<param name="histeresis.higherThreshold">30</param>
 				</Component>
 				<Component name="FindContours" type="RubikCube:FindContours" priority="6" bump="0">
 				</Component>
 				<Component name="FindParallelograms" type="RubikCube:FindParallelograms" priority="7" bump="0">
 				</Component>
-				<Component name="FindCubeFace" type="RubikCube:FindCubeFace" priority="7" bump="0">
+				<Component name="FindCubeFace" type="RubikCube:FindCubeFace" priority="8" bump="0">
 				</Component>
-				<Component name="GetTilesColors" type="RubikCube:GetTilesColors" priority="8" bump="0">
+				<Component name="GetTilesColors" type="RubikCube:GetTilesColors" priority="9" bump="0">
 				</Component>
 				
 			</Executor>
@@ -75,7 +78,7 @@
 			<Executor name="Exec3" period="0.2">
 				<Component name="Results" type="RubikCube:DrawResults" priority="1" bump="0">
 				</Component>
-				<Component name="Window" type="CvBasic:CvWindow" priority="4" bump="0">
+				<Component name="Window" type="CvBasic:CvWindow" priority="2" bump="0">
 					<param name="count">2</param>
 					<param name="title">Original,Result</param>
 				</Component>
@@ -95,7 +98,6 @@
 	<DataStreams>
 		<Source name="Source.out_img">	
 			<sink>Undistort.in_img</sink>
-			<sink>Window.in_img0</sink>
 		</Source>
 		<Source name="CameraInfo.out_camera_info">
 			<sink>Undistort.in_camerainfo</sink>
@@ -106,6 +108,9 @@
 			<sink>GetTilesColors.in_img</sink>
 		</Source>
 		<Source name="RGB2GS.out_img">
+			<sink>MedianBlur.in_img</sink>
+		</Source>
+		<Source name="MedianBlur.out_img">
 			<sink>EqualizeHistogram.in_img</sink>
 		</Source>
 		<Source name="EqualizeHistogram.out_img">
@@ -113,6 +118,7 @@
 		</Source>
 		<Source name="GaussianBlur.out_img">
 			<sink>FindEdges.in_img</sink>
+			<sink>Window.in_img0</sink>
 		</Source>
 		<Source name="FindEdges.out_img">
 			<sink>FindContours.in_img</sink>

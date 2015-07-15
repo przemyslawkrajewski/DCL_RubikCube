@@ -67,11 +67,14 @@ void GetTilesColors::onNewCubeFace()
 			{
 				int x = cubeFace.getTile(i,j).getMiddle().x;
 				int y = cubeFace.getTile(i,j).getMiddle().y;
-				int b = img.ptr<uchar>(y)[numberOfChannels*x+0]+img.ptr<uchar>(y+4)[numberOfChannels*(x+4)+0]+img.ptr<uchar>(y+4)[numberOfChannels*(x-4)+0]+img.ptr<uchar>(y-4)[numberOfChannels*(x+4)+0]+img.ptr<uchar>(y-4)[numberOfChannels*(x-4)+0];
-				int g = img.ptr<uchar>(y)[numberOfChannels*x+1]+img.ptr<uchar>(y+4)[numberOfChannels*(x+4)+1]+img.ptr<uchar>(y+4)[numberOfChannels*(x-4)+1]+img.ptr<uchar>(y-4)[numberOfChannels*(x+4)+1]+img.ptr<uchar>(y-4)[numberOfChannels*(x-4)+1];
-				int r = img.ptr<uchar>(y)[numberOfChannels*x+2]+img.ptr<uchar>(y+4)[numberOfChannels*(x+4)+2]+img.ptr<uchar>(y+4)[numberOfChannels*(x-4)+2]+img.ptr<uchar>(y-4)[numberOfChannels*(x+4)+2]+img.ptr<uchar>(y-4)[numberOfChannels*(x-4)+2];
-				b=b/5;g=g/5;r=r/5;
-				cubeFace.setTileColor(i,j,cv::Scalar(b,g,r));
+				if(x >0 && x <1296 && y>0 && y < 1032)
+				{
+					int b = img.ptr<uchar>(y)[numberOfChannels*x+0]+img.ptr<uchar>(y+4)[numberOfChannels*(x+4)+0]+img.ptr<uchar>(y+4)[numberOfChannels*(x-4)+0]+img.ptr<uchar>(y-4)[numberOfChannels*(x+4)+0]+img.ptr<uchar>(y-4)[numberOfChannels*(x-4)+0];
+					int g = img.ptr<uchar>(y)[numberOfChannels*x+1]+img.ptr<uchar>(y+4)[numberOfChannels*(x+4)+1]+img.ptr<uchar>(y+4)[numberOfChannels*(x-4)+1]+img.ptr<uchar>(y-4)[numberOfChannels*(x+4)+1]+img.ptr<uchar>(y-4)[numberOfChannels*(x-4)+1];
+					int r = img.ptr<uchar>(y)[numberOfChannels*x+2]+img.ptr<uchar>(y+4)[numberOfChannels*(x+4)+2]+img.ptr<uchar>(y+4)[numberOfChannels*(x-4)+2]+img.ptr<uchar>(y-4)[numberOfChannels*(x+4)+2]+img.ptr<uchar>(y-4)[numberOfChannels*(x-4)+2];
+					b=b/5;g=g/5;r=r/5;
+					cubeFace.setTileColor(i,j,cv::Scalar(b,g,r));
+				}
 			}
 		out_cubeface.write(cubeFace);
 

@@ -137,9 +137,9 @@ void FindParallelograms::onNewContours()
 
             double distanceThreshold;
             double minLength = 50;
-            double similarAngleThreshold = 10 * 3.14 / 180;
-            if (r01 < r30) distanceThreshold = r01 / 5;
-            else distanceThreshold = r30 / 5;
+            double similarAngleThreshold = 15 * 3.14 / 180;
+            if (r01 < r30) distanceThreshold = r01 / 4;
+            else distanceThreshold = r30 / 4;
 
 
             if (abs(a01 - a32) < similarAngleThreshold && abs(a03 - a12) < similarAngleThreshold &&
