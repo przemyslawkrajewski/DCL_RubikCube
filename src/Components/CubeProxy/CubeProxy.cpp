@@ -66,44 +66,55 @@ bool CubeProxy::onStart() {
 	return true;
 }
 
+void CubeProxy::publish()
+{
+	if(cube.isFound() &&  (cubePosition.x!=0 || cubePosition.y!=0))
+	{
+		rubik_cube::Cube_face_color msg;
+
+		msg.tile1.red    = cube.getTile(0,0).getColor()[2];
+		msg.tile1.green  = cube.getTile(0,0).getColor()[1];
+		msg.tile1.blue   = cube.getTile(0,0).getColor()[0];
+		msg.tile2.red    = cube.getTile(0,1).getColor()[2];
+		msg.tile2.green  = cube.getTile(0,1).getColor()[1];
+		msg.tile2.blue   = cube.getTile(0,1).getColor()[0];
+		msg.tile3.red    = cube.getTile(0,2).getColor()[2];
+		msg.tile3.green  = cube.getTile(0,2).getColor()[1];
+		msg.tile3.blue   = cube.getTile(0,2).getColor()[0];
+		msg.tile4.red    = cube.getTile(1,0).getColor()[2];
+		msg.tile4.green  = cube.getTile(1,0).getColor()[1];
+		msg.tile4.blue   = cube.getTile(1,0).getColor()[0];
+		msg.tile5.red    = cube.getTile(1,1).getColor()[2];
+		msg.tile5.green  = cube.getTile(1,1).getColor()[1];
+		msg.tile5.blue   = cube.getTile(1,1).getColor()[0];
+		msg.tile6.red    = cube.getTile(1,2).getColor()[2];
+		msg.tile6.green  = cube.getTile(1,2).getColor()[1];
+		msg.tile6.blue   = cube.getTile(1,2).getColor()[0];
+		msg.tile7.red    = cube.getTile(2,0).getColor()[2];
+		msg.tile7.green  = cube.getTile(2,0).getColor()[1];
+		msg.tile7.blue   = cube.getTile(2,0).getColor()[0];
+		msg.tile8.red    = cube.getTile(2,1).getColor()[2];
+		msg.tile8.green  = cube.getTile(2,1).getColor()[1];
+		msg.tile8.blue   = cube.getTile(2,1).getColor()[0];
+		msg.tile9.red    = cube.getTile(2,2).getColor()[2];
+		msg.tile9.green  = cube.getTile(2,2).getColor()[1];
+		msg.tile9.blue   = cube.getTile(2,2).getColor()[0];
+		msg.x = cubePosition.x;
+		msg.y = cubePosition.y;
+
+		pub.publish(msg);
+		ros::spinOnce();
+
+		cube = CubeFace();
+		cubePosition.x = cubePosition.y = 0;
+	}
+}
+
 void CubeProxy::onNewCubeFace()
 {
-	CubeFace cube = in_cubeface.read();
+	cube = in_cubeface.read();
 
-	rubik_cube::Cube_face_color msg;
-	//msg.data = in_data.read();
-	msg.tile1.red    = cube.getTile(0,0).getColor()[2];
-	msg.tile1.green  = cube.getTile(0,0).getColor()[1];
-	msg.tile1.blue   = cube.getTile(0,0).getColor()[0];
-	msg.tile2.red    = cube.getTile(0,1).getColor()[2];
-	msg.tile2.green  = cube.getTile(0,1).getColor()[1];
-	msg.tile2.blue   = cube.getTile(0,1).getColor()[0];
-	msg.tile3.red    = cube.getTile(0,2).getColor()[2];
-	msg.tile3.green  = cube.getTile(0,2).getColor()[1];
-	msg.tile3.blue   = cube.getTile(0,2).getColor()[0];
-	msg.tile4.red    = cube.getTile(1,0).getColor()[2];
-	msg.tile4.green  = cube.getTile(1,0).getColor()[1];
-	msg.tile4.blue   = cube.getTile(1,0).getColor()[0];
-	msg.tile5.red    = cube.getTile(1,1).getColor()[2];
-	msg.tile5.green  = cube.getTile(1,1).getColor()[1];
-	msg.tile5.blue   = cube.getTile(1,1).getColor()[0];
-	msg.tile6.red    = cube.getTile(1,2).getColor()[2];
-	msg.tile6.green  = cube.getTile(1,2).getColor()[1];
-	msg.tile6.blue   = cube.getTile(1,2).getColor()[0];
-	msg.tile7.red    = cube.getTile(2,0).getColor()[2];
-	msg.tile7.green  = cube.getTile(2,0).getColor()[1];
-	msg.tile7.blue   = cube.getTile(2,0).getColor()[0];
-	msg.tile8.red    = cube.getTile(2,1).getColor()[2];
-	msg.tile8.green  = cube.getTile(2,1).getColor()[1];
-	msg.tile8.blue   = cube.getTile(2,1).getColor()[0];
-	msg.tile9.red    = cube.getTile(2,2).getColor()[2];
-	msg.tile9.green  = cube.getTile(2,2).getColor()[1];
-	msg.tile9.blue   = cube.getTile(2,2).getColor()[0];
-	msg.x = cubePosition.x;
-	msg.y = cubePosition.y;
-
-	pub.publish(msg);
-	ros::spinOnce();
+	publish();
 }
 
 void CubeProxy::onNewHomoMatrix()
@@ -112,6 +123,8 @@ void CubeProxy::onNewHomoMatrix()
 	hm = in_homogMatrix.read();
 	cubePosition.x = hm.elements[0][3]*1000;
 	cubePosition.y = hm.elements[1][3]*1000;
+
+	publish();
 }
 
 void CubeProxy::callback(const rubik_cube::Cube_face_colorConstPtr& msg) {

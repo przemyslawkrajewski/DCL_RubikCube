@@ -100,9 +100,13 @@ protected:
 	void onNewCubeFace();
 	void onNewHomoMatrix();
 
+	void publish();
+
 	ros::Publisher pub;
 	ros::Subscriber sub;
 	ros::NodeHandle * nh;
+
+	CubeFace cube;
 	cv::Point cubePosition;
 
 	void callback(const rubik_cube::Cube_face_colorConstPtr& msg);

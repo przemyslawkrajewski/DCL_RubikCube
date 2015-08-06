@@ -91,9 +91,7 @@
 				<Component name="Publicate" type="RubikCube:CubeProxy" priority="3" bump="0">
 				</Component>
 			</Executor>
-		</Subtask>	
-		
-		</Subtask>	
+		</Subtask>		
 	
 	</Subtasks>
 	
