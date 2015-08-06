@@ -55,7 +55,7 @@ bool GetTilesColors::onStart() {
 
 void GetTilesColors::onNewCubeFace()
 {
-	LOG(LTRACE) << "DrawResults::onNewCubeFace\n";
+	LOG(LTRACE) << "GetTilesColors::onNewCubeFace\n";
 	try {
 		CubeFace cubeFace = in_cubeface.read();
 
@@ -79,18 +79,18 @@ void GetTilesColors::onNewCubeFace()
 		out_cubeface.write(cubeFace);
 
 	} catch (...) {
-		LOG(LERROR) << "DrawResults	::onNewCubeFace failed\n";
+		LOG(LERROR) << "GetTilesColors	::onNewCubeFace failed\n";
 	}
 }
 
 void GetTilesColors::onNewImage()
 {
-	LOG(LTRACE) << "DrawResults::onNewImage\n";
+	LOG(LTRACE) << "GetTilesColors::onNewImage\n";
 	try {
 		img = in_img.read();
 
 	} catch (...) {
-		LOG(LERROR) << "DrawResults	::onNewImage failed\n";
+		LOG(LERROR) << "GetTilesColors	::onNewImage failed\n";
 	}
 }
 

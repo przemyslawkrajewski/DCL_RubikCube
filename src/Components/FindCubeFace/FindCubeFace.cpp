@@ -18,8 +18,8 @@ namespace FindCubeFace {
 FindCubeFace::FindCubeFace(const std::string & name) :
 		Base::Component(name)  {
 
-	angleThresholdGroupSquares=20*CV_PI/180;
-	angleThresholdInLine = CV_PI*15/180;
+	angleThresholdGroupSquares=30*CV_PI/180;
+	angleThresholdInLine = CV_PI*10/180;
 }
 
 FindCubeFace::~FindCubeFace() {
@@ -98,8 +98,8 @@ vector< vector<Parallelogram> > FindCubeFace::groupParallelograms( vector<Parall
         if(a03<0) a03+=CV_PI;
 
         double distanceThreshold;
-        if (r01 < r03) distanceThreshold = r01 / 4;
-        else distanceThreshold = r03 / 4;
+        if (r01 < r03) distanceThreshold = r01 / 3;
+        else distanceThreshold = r03 / 3;
 
         groupOfParallelograms.push_back(parallelograms[0]);
         parallelograms.erase(parallelograms.begin());
@@ -122,9 +122,8 @@ vector< vector<Parallelogram> > FindCubeFace::groupParallelograms( vector<Parall
             else j++;
         }
 
-        if(groupOfParallelograms.size()>1)	groupsOfParallelograms.push_back(groupOfParallelograms);
+        if(groupOfParallelograms.size()>4)	groupsOfParallelograms.push_back(groupOfParallelograms);
     }
-
 
     for(int i=0;i<groupsOfParallelograms.size();i++)
     {
@@ -143,7 +142,6 @@ vector< vector<Parallelogram> > FindCubeFace::groupParallelograms( vector<Parall
             }
         }
     }//*/
-
     return groupsOfParallelograms;
 }
 
@@ -411,6 +409,42 @@ vector<CubeFace> FindCubeFace::rotateCube(vector<CubeFace> cubeFaces)
     		i->setTile(t,2,1);//*/
     	}
     }
+
+    //Weryfikacja
+    for(vector<CubeFace>::iterator i=cubeFaces.begin();i!=cubeFaces.end();)
+    {
+    	double r1 = measureDistance(i->getTile(0,0).getMiddle(),i->getTile(0,1).getMiddle());
+    	double r2 = measureDistance(i->getTile(0,1).getMiddle(),i->getTile(0,2).getMiddle());
+    	double r3 = measureDistance(i->getTile(0,0).getMiddle(),i->getTile(1,0).getMiddle());
+    	double r4 = measureDistance(i->getTile(1,0).getMiddle(),i->getTile(2,0).getMiddle());
+    	double d = (r1+r2+r3+r4)/(4*2);
+    	if(abs(r1-r2)>d || abs(r1-r3)>d || abs(r1-r4)>d || abs(r2-r3)>d  || abs(r2-r4)>d || abs(r3-r4)>d)
+    		i=cubeFaces.erase(i);
+    	else i++;
+    }
+    //Weryfikacja2
+    for(vector<CubeFace>::iterator i=cubeFaces.begin();i!=cubeFaces.end();)
+    {
+    	double r[8];
+    	r[0]=  measureDistance(i->getTile(1,1).getMiddle(),i->getTile(0,0).getMiddle());
+    	r[1]=  measureDistance(i->getTile(1,1).getMiddle(),i->getTile(0,1).getMiddle());
+    	r[2]=  measureDistance(i->getTile(1,1).getMiddle(),i->getTile(0,2).getMiddle());
+    	r[3]=  measureDistance(i->getTile(1,1).getMiddle(),i->getTile(1,0).getMiddle());
+    	r[4]=  measureDistance(i->getTile(1,1).getMiddle(),i->getTile(2,0).getMiddle());
+    	r[5]=  measureDistance(i->getTile(1,1).getMiddle(),i->getTile(1,2).getMiddle());
+    	r[6]=  measureDistance(i->getTile(1,1).getMiddle(),i->getTile(2,1).getMiddle());
+    	r[7]=  measureDistance(i->getTile(1,1).getMiddle(),i->getTile(2,2).getMiddle());
+
+    	double d=0;
+    	for (int j=0;j<8;j++) d+=r[j];
+    	d = d/(8*2);
+    	if(
+    			abs(r[0]-r[2])>d || abs(r[0]-r[4])>d || abs(r[0]-r[7])>d || abs(r[2]-r[4])>d  || abs(r[2]-r[7])>d || abs(r[4]-r[7])>d ||
+    			abs(r[1]-r[3])>d || abs(r[1]-r[5])>d || abs(r[1]-r[6])>d || abs(r[3]-r[5])>d  || abs(r[3]-r[6])>d || abs(r[5]-r[6])>d
+    	  )
+    		i=cubeFaces.erase(i);
+    	else i++;
+    }//*/
     return cubeFaces;
 }
 

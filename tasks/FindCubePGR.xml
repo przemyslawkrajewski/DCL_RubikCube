@@ -19,7 +19,7 @@
 			<Executor name="Exec1" period="0.1">
 				
 				<Component name="Source" type="CameraPGR:CameraPGR" priority="1" bump="0">
-					<param name="camera_serial">13481977</param>
+					<param name="camera_serial">14180973</param>
 					<param name="width">1296</param>
 					<param name="height">1032</param>
 					<param name="shutter_mode">manual</param>
@@ -48,19 +48,19 @@
 				<Component name="RGB2GS" type="CvBasic:CvColorConv" priority="1" bump="0">
 				</Component>
 				<Component name="GaussianBlur" type="CvBasic:CvGaussianBlur" priority="2" bump="0">
-					<param name="kernel.width">9</param>
-					<param name="kernel.height">9</param>
+					<param name="kernel.width">11</param>
+					<param name="kernel.height">11</param>
 				</Component>
 				<Component name="MedianBlur" type="RubikCube:CvMedianBlur" priority="3" bump="0">
-					<param name="kernel.size">7</param>
+					<param name="kernel.size">11</param>
 				</Component>
 				<Component name="EqualizeHistogram" type="RubikCube:CvEqualizeHistogram" priority="4" bump="0">
 				</Component>
 				<Component name="FindEdges" type="RubikCube:DualCanny" priority="5" bump="0">
 					<param name="dilation.kernel.size">15</param>
-					<param name="erosion.kernel.size">13</param>
+					<param name="erosion.kernel.size">11</param>
 					<param name="histeresis.lowerThreshold">15</param>
-					<param name="histeresis.higherThreshold">30</param>
+					<param name="histeresis.higherThreshold">25</param>
 				</Component>
 				<Component name="FindContours" type="RubikCube:FindContours" priority="6" bump="0">
 				</Component>
@@ -71,25 +71,28 @@
 				<Component name="GetTilesColors" type="RubikCube:GetTilesColors" priority="9" bump="0">
 				</Component>
 				
+				
+				<Component name="CubeModel" type="RubikCube:CubeInfo" priority="9" bump="0">
+				</Component>
+				<Component name="PnP" type="CvBasic:CvSolvePnP" priority="9" bump="0">
+				</Component>
+				
 			</Executor>
 		</Subtask>
 		
-		<Subtask name="Visualisation">
+		<Subtask name="Results">
 			<Executor name="Exec3" period="0.2">
 				<Component name="Results" type="RubikCube:DrawResults" priority="1" bump="0">
 				</Component>
 				<Component name="Window" type="CvBasic:CvWindow" priority="2" bump="0">
-					<param name="count">2</param>
-					<param name="title">Original,Result</param>
+					<param name="count">1</param>
+					<param name="title">Result</param>
+				</Component>
+				<Component name="Publicate" type="RubikCube:CubeProxy" priority="3" bump="0">
 				</Component>
 			</Executor>
 		</Subtask>	
 		
-				<Subtask name="Publication">
-			<Executor name="Exec4" period="0.2">
-				<Component name="Publicate" type="RubikCube:CubeProxy" priority="1" bump="0">
-				</Component>
-			</Executor>
 		</Subtask>	
 	
 	</Subtasks>
@@ -101,6 +104,7 @@
 		</Source>
 		<Source name="CameraInfo.out_camera_info">
 			<sink>Undistort.in_camerainfo</sink>
+			<sink>PnP.in_camerainfo</sink>
 		</Source>
 		<Source name="Undistort.out_img">
 			<sink>RGB2GS.in_img</sink>
@@ -118,7 +122,6 @@
 		</Source>
 		<Source name="GaussianBlur.out_img">
 			<sink>FindEdges.in_img</sink>
-			<sink>Window.in_img0</sink>
 		</Source>
 		<Source name="FindEdges.out_img">
 			<sink>FindContours.in_img</sink>
@@ -133,15 +136,22 @@
 		</Source>
 		<Source name="FindCubeFace.out_cubeface">
 			<sink>GetTilesColors.in_cubeface</sink>
+			<sink>CubeModel.in_cubeface</sink>
 		</Source>
 		<Source name="GetTilesColors.out_cubeface">
 			<sink>Results.in_cubeface</sink>
 			<sink>Publicate.in_cubeface</sink>
-		</Source>
-		
+		</Source>		
 		
 		<Source name="Results.out_img">
-			<sink>Window.in_img1</sink>
+			<sink>Window.in_img</sink>
+		</Source>
+		
+		<Source name="CubeModel.out_object3d">
+			<sink>PnP.in_object3d</sink>
+		</Source>
+		<Source name="PnP.out_homogMatrix">
+			<sink>Publicate.in_homogMatrix</sink>
 		</Source>
 	</DataStreams>
 </Task>

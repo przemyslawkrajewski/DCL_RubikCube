@@ -13,7 +13,17 @@
 #include "Property.hpp"
 #include "EventHandler2.hpp"
 
+#include "Types/Objects3D/Object3D.hpp"
+#include "Types/HomogMatrix.hpp"
 
+#include <opencv2/core/core.hpp>
+#include <opencv2/calib3d/calib3d.hpp>
+
+#include "Types/Parallelogram.hpp"
+#include "Types/CubeFace.hpp"
+#include "Types/CubeModel.hpp"
+
+using namespace RubikCube;
 
 namespace Processors {
 namespace CubeInfo {
@@ -65,7 +75,11 @@ protected:
 	 */
 	bool onStop();
 
+	void onNewCubeFace();
 
+
+	Base::DataStreamIn < CubeFace , Base::DataStreamBuffer::Newest,Base::Synchronization::Mutex> in_cubeface;
+	Base::DataStreamOut <Types::Objects3D::Object3D> out_object3d;
 	
 
 };

@@ -82,6 +82,7 @@ void FindParallelograms::onNewContours()
 
                 distanceLayout.push_back(r);
             }
+            Parallelogram parallelogram;
             //Wyznaczamy najdalszy punkt czyli może jeden z wierzcholkow
             double maximalDistance = 0;
             int numberOfFurthestPoint = -1;
@@ -94,9 +95,9 @@ void FindParallelograms::onNewContours()
                 }
             }
 
-            //Seting found point and opposite
-            Parallelogram parallelogram;
             parallelogram.setCorner( (*c)[(numberOfFurthestPoint) % c->size()], 0);
+
+            //Seting found point and opposite
             parallelogram.setCorner( (*c)[(numberOfFurthestPoint + 2 * c->size() / 4) % c->size()], 2);
 
 
@@ -136,10 +137,10 @@ void FindParallelograms::onNewContours()
             double r30 = sqrt((p3.x - p0.x) * (p3.x - p0.x) + (p3.y - p0.y) * (p3.y - p0.y));
 
             double distanceThreshold;
-            double minLength = 50;
-            double similarAngleThreshold = 15 * 3.14 / 180;
-            if (r01 < r30) distanceThreshold = r01 / 4;
-            else distanceThreshold = r30 / 4;
+            double minLength = 60;
+            double similarAngleThreshold = 30 * 3.14 / 180;
+            if (r01 < r30) distanceThreshold = r01 / 3;
+            else distanceThreshold = r30 / 3;
 
 
             if (abs(a01 - a32) < similarAngleThreshold && abs(a03 - a12) < similarAngleThreshold &&

@@ -25,6 +25,8 @@
 #include "std_msgs/Int32.h"
 #include "rubik_cube/Cube_face_color.h"
 
+#include "Types/HomogMatrix.hpp"
+
 using namespace std;
 using namespace cv;
 using namespace RubikCube;
@@ -83,21 +85,25 @@ protected:
 	// Input data streams
 
 	Base::DataStreamIn<CubeFace , Base::DataStreamBuffer::Newest,Base::Synchronization::Mutex> in_cubeface;
+	Base::DataStreamIn<Types::HomogMatrix , Base::DataStreamBuffer::Newest,Base::Synchronization::Mutex> in_homogMatrix;
 
 	// Output data streams
 
 	// Handlers
 	Base::EventHandler2 h_onNewCubeFace;
+	Base::EventHandler2 h_onNewHomoMatrix;
 	Base::Property<std::string> ros_topic_name;
 	Base::Property<std::string> ros_namespace;
 
 
 	// Handlers
 	void onNewCubeFace();
+	void onNewHomoMatrix();
 
 	ros::Publisher pub;
 	ros::Subscriber sub;
 	ros::NodeHandle * nh;
+	cv::Point cubePosition;
 
 	void callback(const rubik_cube::Cube_face_colorConstPtr& msg);
 

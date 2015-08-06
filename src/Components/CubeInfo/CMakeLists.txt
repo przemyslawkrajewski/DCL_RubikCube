@@ -6,11 +6,12 @@ FILE(GLOB files *.cpp)
 
 # Find required packages
 
+FIND_PACKAGE( OpenCV REQUIRED )
 
 # Create an executable file from sources:
 ADD_LIBRARY(CubeInfo SHARED ${files})
 
 # Link external libraries
-TARGET_LINK_LIBRARIES(CubeInfo ${DisCODe_LIBRARIES} )
+TARGET_LINK_LIBRARIES(CubeInfo ${OpenCV_LIBS} ${DisCODe_LIBRARIES} )
 
 INSTALL_COMPONENT(CubeInfo)

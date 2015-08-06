@@ -30,11 +30,16 @@ CubeProxy::~CubeProxy() {
 void CubeProxy::prepareInterface() {
 	// Register data streams, events and event handlers HERE!
 	registerStream("in_cubeface", &in_cubeface);
+	registerStream("in_homogMatrix", &in_homogMatrix);
 
 	// Register handlers
 	h_onNewCubeFace.setup(boost::bind(&CubeProxy::onNewCubeFace, this));
 	registerHandler("onNewCubeFace", &h_onNewCubeFace);
 	addDependency("onNewCubeFace", &in_cubeface);
+
+	h_onNewHomoMatrix.setup(boost::bind(&CubeProxy::onNewHomoMatrix, this));
+	registerHandler("onNewHomoMatrix", &h_onNewHomoMatrix);
+	addDependency("onNewHomoMatrix", &in_homogMatrix);
 
 }
 
@@ -94,18 +99,19 @@ void CubeProxy::onNewCubeFace()
 	msg.tile9.red    = cube.getTile(2,2).getColor()[2];
 	msg.tile9.green  = cube.getTile(2,2).getColor()[1];
 	msg.tile9.blue   = cube.getTile(2,2).getColor()[0];
-	msg.x = cube.getTile(1,1).getMiddle().x;
-	msg.y = cube.getTile(1,1).getMiddle().y;
-	cv::Point p1 = cube.getTile(0,0).getMiddle();
-	cv::Point p2 = cube.getTile(0,2).getMiddle();
-	cv::Point p3 = cube.getTile(0,2).getMiddle();
-	double r1 = sqrt((p1.x-p2.x)*(p1.x-p2.x) + (p1.y-p2.y)*(p1.y-p2.y));
-	double r2 = sqrt((p1.x-p3.x)*(p1.x-p3.x) + (p1.y-p3.y)*(p1.y-p3.y));
-	msg.d = (r1+r2)/2;
-
+	msg.x = cubePosition.x;
+	msg.y = cubePosition.y;
 
 	pub.publish(msg);
 	ros::spinOnce();
+}
+
+void CubeProxy::onNewHomoMatrix()
+{
+	Types::HomogMatrix hm;
+	hm = in_homogMatrix.read();
+	cubePosition.x = hm.elements[0][3]*1000;
+	cubePosition.y = hm.elements[1][3]*1000;
 }
 
 void CubeProxy::callback(const rubik_cube::Cube_face_colorConstPtr& msg) {

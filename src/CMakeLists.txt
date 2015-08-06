@@ -26,6 +26,8 @@ SET(DisCODe_LIBRARIES ${DisCODe_LIBRARIES} ${Boost_LIBRARIES})
 
 SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,defs") 
 
+DISCODE_FIND_DCL(CvBasic)
+
 # ##############################################################################
 # Add source directories
 # ##############################################################################
