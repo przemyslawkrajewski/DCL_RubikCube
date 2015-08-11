@@ -72,6 +72,9 @@ void CubeProxy::publish()
 	{
 		rubik_cube::Cube_face_color msg;
 
+		cv::Point p1 = cube.getTile(0,0).getMiddle();
+		cv::Point p2 = cube.getTile(2,2).getMiddle();
+
 		msg.tile1.red    = cube.getTile(0,0).getColor()[2];
 		msg.tile1.green  = cube.getTile(0,0).getColor()[1];
 		msg.tile1.blue   = cube.getTile(0,0).getColor()[0];
@@ -101,6 +104,7 @@ void CubeProxy::publish()
 		msg.tile9.blue   = cube.getTile(2,2).getColor()[0];
 		msg.x = cubePosition.x;
 		msg.y = cubePosition.y;
+		msg.z_rot = atan2(p2.y - p1.y, p2.x - p1.x);
 
 		pub.publish(msg);
 		ros::spinOnce();
@@ -121,6 +125,10 @@ void CubeProxy::onNewHomoMatrix()
 {
 	Types::HomogMatrix hm;
 	hm = in_homogMatrix.read();
+	//std::cout << hm.elements[0][0] << "  " << hm.elements[0][1] << "  " << hm.elements[0][2] << "\n";
+	//std::cout << hm.elements[1][0] << "  " << hm.elements[1][1] << "  " << hm.elements[1][2] << "\n";
+	//std::cout << hm.elements[2][0] << "  " << hm.elements[2][1] << "  " << hm.elements[2][2] << "\n";
+
 	cubePosition.x = hm.elements[0][3]*1000;
 	cubePosition.y = hm.elements[1][3]*1000;
 

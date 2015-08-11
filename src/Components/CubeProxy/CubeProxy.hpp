@@ -7,6 +7,8 @@
 #ifndef CUBEPROXY_HPP_
 #define CUBEPROXY_HPP_
 
+#include <math.h>
+
 #include "Component_Aux.hpp"
 #include "Component.hpp"
 #include "DataStream.hpp"
@@ -108,6 +110,7 @@ protected:
 
 	CubeFace cube;
 	cv::Point cubePosition;
+	double z_rot;
 
 	void callback(const rubik_cube::Cube_face_colorConstPtr& msg);
 

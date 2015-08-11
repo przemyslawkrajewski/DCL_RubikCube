@@ -18,8 +18,8 @@ namespace FindCubeFace {
 FindCubeFace::FindCubeFace(const std::string & name) :
 		Base::Component(name)  {
 
-	angleThresholdGroupSquares=30*CV_PI/180;
-	angleThresholdInLine = CV_PI*10/180;
+	angleThresholdGroupSquares=15*CV_PI/180;
+	angleThresholdInLine = CV_PI*15/180;
 }
 
 FindCubeFace::~FindCubeFace() {
@@ -97,9 +97,12 @@ vector< vector<Parallelogram> > FindCubeFace::groupParallelograms( vector<Parall
         if(a01<0) a01+=CV_PI;
         if(a03<0) a03+=CV_PI;
 
+        if(a01>CV_PI) a01-=CV_PI;
+        if(a03>CV_PI) a03-=CV_PI;
+
         double distanceThreshold;
-        if (r01 < r03) distanceThreshold = r01 / 3;
-        else distanceThreshold = r03 / 3;
+        if (r01 < r03) distanceThreshold = r01 / 6;
+        else distanceThreshold = r03 / 6;
 
         groupOfParallelograms.push_back(parallelograms[0]);
         parallelograms.erase(parallelograms.begin());
@@ -113,6 +116,10 @@ vector< vector<Parallelogram> > FindCubeFace::groupParallelograms( vector<Parall
             double rj3=measureDistance(j->getCorner(0),j->getCorner(3));
             if(aj1<0) aj1+=CV_PI;
             if(aj3<0) aj3+=CV_PI;
+
+            if(aj1>CV_PI) aj1-=CV_PI;
+            if(aj3>CV_PI) aj3-=CV_PI;
+
             if(  ((abs(a01 - aj1)<angleThresholdGroupSquares && abs(a03 - aj3)<angleThresholdGroupSquares)   ||   ( abs(a03 - aj1)<angleThresholdGroupSquares   &&   abs(a01 - aj3)<angleThresholdGroupSquares)) &&
                  ((abs(r01 - rj1)<distanceThreshold          && abs(r03 - rj3)<distanceThreshold)   ||   ( abs(r03 - rj1)<distanceThreshold   &&   abs(r01 - rj3)<distanceThreshold))   )
             {
@@ -122,26 +129,29 @@ vector< vector<Parallelogram> > FindCubeFace::groupParallelograms( vector<Parall
             else j++;
         }
 
-        if(groupOfParallelograms.size()>4)	groupsOfParallelograms.push_back(groupOfParallelograms);
+        if(groupOfParallelograms.size()>4)	{groupsOfParallelograms.push_back(groupOfParallelograms);}
     }
 
     for(int i=0;i<groupsOfParallelograms.size();i++)
     {
+    	//std::cout << groupsOfParallelograms[i].size() << "--";
         //Wywalamy równoległoboki które się nakładają
         for(int j=0;j<groupsOfParallelograms[i].size();j++)
         {
             double rj02 = measureDistance(groupsOfParallelograms[i][j].getCorner(0),groupsOfParallelograms[i][j].getCorner(2));
             Point pj = groupsOfParallelograms[i][j].getMiddle();
-            double distanceThreshold =rj02/15;
+            double distanceThreshold =rj02/10;
             for(int l=0;l<groupsOfParallelograms[i].size();)
             {
                 Point pl = groupsOfParallelograms[i][l].getMiddle();
-                double rjl=sqrt((pj.x - pl.x) * (pj.x - pl.x) + (pj.y - pl.y) * (pj.y - pl.y));
+                double rjl = measureDistance(pj,pl);
                 if(rjl < distanceThreshold && j!=l) groupsOfParallelograms[i].erase(groupsOfParallelograms[i].begin()+l);
                 else l++;
             }
         }
+        //std::cout << groupsOfParallelograms[i].size() << "\n";
     }//*/
+//std::cout << "\n";
     return groupsOfParallelograms;
 }
 
@@ -251,7 +261,7 @@ vector<CubeFace> FindCubeFace::determineCubeFaces( vector< vector<Parallelogram>
             }
             if(parallelogramsInLine1==3 && parallelogramsInLine2==3) break;
         }
-
+        //std::cout << group->size() << "  "<< parallelogramsInLine1 << "  " <<  parallelogramsInLine2 << "\n";
         if(parallelogramsInLine1==3 && parallelogramsInLine2==3)
         {
             int min1,min2;
@@ -419,7 +429,7 @@ vector<CubeFace> FindCubeFace::rotateCube(vector<CubeFace> cubeFaces)
     	double r4 = measureDistance(i->getTile(1,0).getMiddle(),i->getTile(2,0).getMiddle());
     	double d = (r1+r2+r3+r4)/(4*2);
     	if(abs(r1-r2)>d || abs(r1-r3)>d || abs(r1-r4)>d || abs(r2-r3)>d  || abs(r2-r4)>d || abs(r3-r4)>d)
-    		i=cubeFaces.erase(i);
+    		{i=cubeFaces.erase(i);std::cout << "Nah!\n";}
     	else i++;
     }
     //Weryfikacja2
@@ -442,7 +452,7 @@ vector<CubeFace> FindCubeFace::rotateCube(vector<CubeFace> cubeFaces)
     			abs(r[0]-r[2])>d || abs(r[0]-r[4])>d || abs(r[0]-r[7])>d || abs(r[2]-r[4])>d  || abs(r[2]-r[7])>d || abs(r[4]-r[7])>d ||
     			abs(r[1]-r[3])>d || abs(r[1]-r[5])>d || abs(r[1]-r[6])>d || abs(r[3]-r[5])>d  || abs(r[3]-r[6])>d || abs(r[5]-r[6])>d
     	  )
-    		i=cubeFaces.erase(i);
+    		{i=cubeFaces.erase(i);std::cout << "Nah!";}
     	else i++;
     }//*/
     return cubeFaces;

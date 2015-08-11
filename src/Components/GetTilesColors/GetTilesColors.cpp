@@ -67,7 +67,7 @@ void GetTilesColors::onNewCubeFace()
 			{
 				int x = cubeFace.getTile(i,j).getMiddle().x;
 				int y = cubeFace.getTile(i,j).getMiddle().y;
-				if(x >0 && x <1296 && y>0 && y < 1032)
+				if(x >10 && x <1286 && y>10 && y < 1022)
 				{
 					int b = img.ptr<uchar>(y)[numberOfChannels*x+0]+img.ptr<uchar>(y+4)[numberOfChannels*(x+4)+0]+img.ptr<uchar>(y+4)[numberOfChannels*(x-4)+0]+img.ptr<uchar>(y-4)[numberOfChannels*(x+4)+0]+img.ptr<uchar>(y-4)[numberOfChannels*(x-4)+0];
 					int g = img.ptr<uchar>(y)[numberOfChannels*x+1]+img.ptr<uchar>(y+4)[numberOfChannels*(x+4)+1]+img.ptr<uchar>(y+4)[numberOfChannels*(x-4)+1]+img.ptr<uchar>(y-4)[numberOfChannels*(x+4)+1]+img.ptr<uchar>(y-4)[numberOfChannels*(x-4)+1];
