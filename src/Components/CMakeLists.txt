@@ -18,3 +18,5 @@ ADD_COMPONENT(GetTilesColors)
 ADD_COMPONENT(CubeProxy)
 
 ADD_COMPONENT(CubeInfo)
+
+ADD_COMPONENT(ForFun)
