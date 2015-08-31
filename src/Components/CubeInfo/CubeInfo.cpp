@@ -71,7 +71,7 @@ void CubeInfo::onNewCubeFace()
 		for (int i=0;i<3;i++)
 			for(int j=0;j<3;j++)
 			{
-				cv::Point3f p((i-1)*0.015,(j-1)*0.015,0);
+				cv::Point3f p((i-1)*0.02,(j-1)*0.02,0);
 				modelPoints.push_back(p);
 				//imagePoints.push_back(cubeFace.getTile(i,j).getMiddle());
 			}

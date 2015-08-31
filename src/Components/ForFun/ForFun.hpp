@@ -7,16 +7,22 @@
 #ifndef FORFUN_HPP_
 #define FORFUN_HPP_
 
+#include <vector>
+
 #include "Component_Aux.hpp"
 #include "Component.hpp"
 #include "DataStream.hpp"
 #include "Property.hpp"
 #include "EventHandler2.hpp"
 
-
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include "opencv2/calib3d/calib3d.hpp"
 
 namespace Processors {
 namespace ForFun {
+
+using namespace cv;
 
 /*!
  * \class ForFun
@@ -65,7 +71,16 @@ protected:
 	 */
 	bool onStop();
 
+	/*!
+	 * Event handler function.
+	 */
+	void onNewImage();
 
+	/// Input data stream
+	Base::DataStreamIn <Mat, Base::DataStreamBuffer::Newest,Base::Synchronization::Mutex> in_img;
+
+	/// Output data stream - processed image
+	Base::DataStreamOut <Mat> out_img;
 	
 
 };

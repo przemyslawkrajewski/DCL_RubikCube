@@ -1,0 +1,83 @@
+
+<Task>
+	<!-- reference task information -->
+	<Reference>
+		<Author>
+			<name>Przemyslaw Krajewski</name>
+			<link></link>
+		</Author>
+		
+		<Description>
+			<brief></brief>
+			<full></full>	
+		</Description>
+	</Reference>
+	
+	<!-- task definition -->
+	<Subtasks>
+		<Subtask name="Recieving">
+			<Executor name="Exec1" period="0.1">
+				
+				<Component name="Source" type="CameraPGR:CameraPGR" priority="1" bump="0">
+					<param name="camera_serial">13481977</param>
+					<param name="width">1296</param>
+					<param name="height">1032</param>
+					<param name="shutter_mode">manual</param>
+					<param name="shutter_value">80</param>
+					<param name="gain_mode">manual</param>
+					<param name="gain_value">2</param>
+					<param name="frame_rate_value">10</param>
+					<param name="frame_rate_mode">manual</param>
+				</Component>
+	
+				<Component name="CameraInfo" type="CvCoreTypes:CameraInfoProvider" priority="2">
+					<param name="width">1296</param>
+					<param name="height">1032</param>
+					<param name="camera_matrix">1051.020107 0.000000 645.847754 ; 0.000000 1047.329241 500.844827 ; 0 0 1</param>
+					<param name="dist_coeffs">-0.393842 0.157774 -0.000447 0.001075 0.000000</param>
+					<param name="projection_matrix">872.926636 0.000000 647.073604 0.000000 ; 0.000000 936.202454 496.009265 0.000000 ; 0.000000 0.000000 1.000000 0.000000</param>
+				</Component>
+				
+				<Component name="Undistort" type="CvBasic:CvUndistort" priority="3" bump="0">
+				</Component>
+				
+			</Executor>
+		</Subtask>
+		
+		<Subtask name="Processing">
+			<Executor name="Exec2" period="0.01">
+				<Component name="forfun" type="RubikCube:ForFun" priority="1" bump="0">
+				</Component>
+			</Executor>
+		</Subtask>
+		
+		<Subtask name="Results">
+			<Executor name="Exec3" period="0.2">
+				<Component name="Window" type="CvBasic:CvWindow" priority="2" bump="0">
+					<param name="count">1</param>
+					<param name="title">Result</param>
+				</Component>	
+			</Executor>
+		</Subtask>		
+	
+	</Subtasks>
+	
+	<!-- pipes connecting datastreams -->
+	<DataStreams>
+	
+		<Source name="CameraInfo.out_camera_info">
+			<sink>Undistort.in_camerainfo</sink>
+		</Source>
+	
+		<Source name="Source.out_img">	
+			<sink>forfun.in_img</sink>
+		</Source>
+		<Source name="forfun.out_img">	
+			<sink>Window.in_img</sink>
+		</Source>	
+	</DataStreams>
+</Task>
+
+
+
+

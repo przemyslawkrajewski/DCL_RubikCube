@@ -33,9 +33,8 @@
 				<Component name="CameraInfo" type="CvCoreTypes:CameraInfoProvider" priority="2">
 					<param name="width">1296</param>
 					<param name="height">1032</param>
-					<param name="camera_matrix">1051.020107 0.000000 645.847754 ; 0.000000 1047.329241 500.844827 ; 0 0 1</param>
-					<param name="dist_coeffs">-0.393842 0.157774 -0.000447 0.001075 0.000000</param>
-					<param name="projection_matrix">872.926636 0.000000 647.073604 0.000000 ; 0.000000 936.202454 496.009265 0.000000 ; 0.000000 0.000000 1.000000 0.000000</param>
+					<param name="camera_matrix">1047.671736 0.000000 657.379744 ; 0.000000 1042.861816 490.623686 ; 0.000000 0.000000 1.000000</param>
+					<param name="dist_coeffs">-0.392986 0.179827 0.003676 -0.001831 0.000000</param>
 				</Component>
 				
 				<Component name="Undistort" type="CvBasic:CvUndistort" priority="3" bump="0">

@@ -101,8 +101,8 @@ vector< vector<Parallelogram> > FindCubeFace::groupParallelograms( vector<Parall
         if(a03>CV_PI) a03-=CV_PI;
 
         double distanceThreshold;
-        if (r01 < r03) distanceThreshold = r01 / 6;
-        else distanceThreshold = r03 / 6;
+        if (r01 < r03) distanceThreshold = r01 / 3;
+        else distanceThreshold = r03 / 3;
 
         groupOfParallelograms.push_back(parallelograms[0]);
         parallelograms.erase(parallelograms.begin());
@@ -261,7 +261,7 @@ vector<CubeFace> FindCubeFace::determineCubeFaces( vector< vector<Parallelogram>
             }
             if(parallelogramsInLine1==3 && parallelogramsInLine2==3) break;
         }
-        //std::cout << group->size() << "  "<< parallelogramsInLine1 << "  " <<  parallelogramsInLine2 << "\n";
+        std::cout << group->size() << "  "<< parallelogramsInLine1 << "  " <<  parallelogramsInLine2 << "\n";
         if(parallelogramsInLine1==3 && parallelogramsInLine2==3)
         {
             int min1,min2;
@@ -427,9 +427,12 @@ vector<CubeFace> FindCubeFace::rotateCube(vector<CubeFace> cubeFaces)
     	double r2 = measureDistance(i->getTile(0,1).getMiddle(),i->getTile(0,2).getMiddle());
     	double r3 = measureDistance(i->getTile(0,0).getMiddle(),i->getTile(1,0).getMiddle());
     	double r4 = measureDistance(i->getTile(1,0).getMiddle(),i->getTile(2,0).getMiddle());
-    	double d = (r1+r2+r3+r4)/(4*2);
+    	double d = (r1+r2+r3+r4)/(4*4);
     	if(abs(r1-r2)>d || abs(r1-r3)>d || abs(r1-r4)>d || abs(r2-r3)>d  || abs(r2-r4)>d || abs(r3-r4)>d)
-    		{i=cubeFaces.erase(i);std::cout << "Nah!\n";}
+    	{
+    		i=cubeFaces.erase(i);
+    		//std::cout << "Nah!\n";
+    	}
     	else i++;
     }
     //Weryfikacja2
@@ -452,7 +455,10 @@ vector<CubeFace> FindCubeFace::rotateCube(vector<CubeFace> cubeFaces)
     			abs(r[0]-r[2])>d || abs(r[0]-r[4])>d || abs(r[0]-r[7])>d || abs(r[2]-r[4])>d  || abs(r[2]-r[7])>d || abs(r[4]-r[7])>d ||
     			abs(r[1]-r[3])>d || abs(r[1]-r[5])>d || abs(r[1]-r[6])>d || abs(r[3]-r[5])>d  || abs(r[3]-r[6])>d || abs(r[5]-r[6])>d
     	  )
-    		{i=cubeFaces.erase(i);std::cout << "Nah!";}
+    	{
+    		i=cubeFaces.erase(i);
+    		//std::cout << "Nah!";
+    	}
     	else i++;
     }//*/
     return cubeFaces;

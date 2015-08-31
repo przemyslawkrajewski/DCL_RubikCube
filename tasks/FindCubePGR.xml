@@ -57,10 +57,10 @@
 				<Component name="EqualizeHistogram" type="RubikCube:CvEqualizeHistogram" priority="4" bump="0">
 				</Component>
 				<Component name="FindEdges" type="RubikCube:DualCanny" priority="5" bump="0">
-					<param name="dilation.kernel.size">19</param>
-					<param name="erosion.kernel.size">15</param>
+					<param name="dilation.kernel.size">25</param>
+					<param name="erosion.kernel.size">19</param>
 					<param name="histeresis.lowerThreshold">15</param>
-					<param name="histeresis.higherThreshold">25</param>
+					<param name="histeresis.higherThreshold">30</param>
 				</Component>
 				<Component name="FindContours" type="RubikCube:FindContours" priority="6" bump="0">
 				</Component>

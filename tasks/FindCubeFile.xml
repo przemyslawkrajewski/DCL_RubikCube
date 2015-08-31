@@ -31,7 +31,7 @@
 					<param name="kernel.height">7</param>
 				</Component>
 				<Component name="MedianBlur" type="RubikCube:CvMedianBlur" priority="3" bump="0">
-					<param name="kernel.size">11</param>
+					<param name="kernel.size">9</param>
 				</Component>
 				<Component name="EqualizeHistogram" type="RubikCube:CvEqualizeHistogram" priority="4" bump="0">
 				</Component>
