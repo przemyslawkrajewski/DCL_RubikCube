@@ -18,7 +18,7 @@ namespace FindCubeFace {
 FindCubeFace::FindCubeFace(const std::string & name) :
 		Base::Component(name)  {
 
-	angleThresholdGroupSquares=15*CV_PI/180;
+	angleThresholdGroupSquares=30*CV_PI/180;
 	angleThresholdInLine = CV_PI*15/180;
 }
 
@@ -261,7 +261,7 @@ vector<CubeFace> FindCubeFace::determineCubeFaces( vector< vector<Parallelogram>
             }
             if(parallelogramsInLine1==3 && parallelogramsInLine2==3) break;
         }
-        std::cout << group->size() << "  "<< parallelogramsInLine1 << "  " <<  parallelogramsInLine2 << "\n";
+        //std::cout << group->size() << "  "<< parallelogramsInLine1 << "  " <<  parallelogramsInLine2 << "\n";
         if(parallelogramsInLine1==3 && parallelogramsInLine2==3)
         {
             int min1,min2;

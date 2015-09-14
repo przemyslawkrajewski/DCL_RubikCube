@@ -153,8 +153,8 @@ void DrawResults::onNewImage()
 		cv::Mat img = in_img.read();
 		cv::Mat out = img.clone();
 
-		drawContours(out);
-		drawParallelograms(out);
+		//drawContours(out);
+		//drawParallelograms(out);
 		drawCubeFace(out);
 		drawTilesColors(out);
 

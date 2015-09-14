@@ -48,19 +48,19 @@
 				<Component name="RGB2GS" type="CvBasic:CvColorConv" priority="1" bump="0">
 				</Component>
 				<Component name="GaussianBlur" type="CvBasic:CvGaussianBlur" priority="2" bump="0">
-					<param name="kernel.width">15</param>
-					<param name="kernel.height">15</param>
+					<param name="kernel.width">19</param>
+					<param name="kernel.height">19</param>
 				</Component>
 				<Component name="MedianBlur" type="RubikCube:CvMedianBlur" priority="3" bump="0">
-					<param name="kernel.size">11</param>
+					<param name="kernel.size">15</param>
 				</Component>
 				<Component name="EqualizeHistogram" type="RubikCube:CvEqualizeHistogram" priority="4" bump="0">
 				</Component>
 				<Component name="FindEdges" type="RubikCube:DualCanny" priority="5" bump="0">
-					<param name="dilation.kernel.size">25</param>
+					<param name="dilation.kernel.size">23</param>
 					<param name="erosion.kernel.size">19</param>
 					<param name="histeresis.lowerThreshold">15</param>
-					<param name="histeresis.higherThreshold">30</param>
+					<param name="histeresis.higherThreshold">22</param>
 				</Component>
 				<Component name="FindContours" type="RubikCube:FindContours" priority="6" bump="0">
 				</Component>
@@ -110,12 +110,12 @@
 			<sink>GetTilesColors.in_img</sink>
 		</Source>
 		<Source name="RGB2GS.out_img">
-			<sink>MedianBlur.in_img</sink>
-		</Source>
-		<Source name="MedianBlur.out_img">
 			<sink>EqualizeHistogram.in_img</sink>
 		</Source>
 		<Source name="EqualizeHistogram.out_img">
+			<sink>MedianBlur.in_img</sink>
+		</Source>
+		<Source name="MedianBlur.out_img">
 			<sink>GaussianBlur.in_img</sink>
 		</Source>
 		<Source name="GaussianBlur.out_img">
